@@ -1,0 +1,20 @@
+.btn{
+  border-radius: unset!important;
+  background-color:#FC9983 ;
+  border: none!important;
+  text-transform: uppercase;
+  padding: 15px;
+  margin: 10px;
+  color: white;
+}
+.btn:hover{
+  background-color:#FFDAB9;
+}
+.filter-btn{
+  background-color:white;
+  border: 1px solid #FFDAB9!important;
+  color: black;
+}
+.card{
+  border-radius: unset!important;
+}

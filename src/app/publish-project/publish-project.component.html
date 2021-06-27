@@ -1,0 +1,113 @@
+<app-nav-user></app-nav-user>
+<div class="d-flex flex-column header">
+    <div class="">
+      <h1 class="first-block col-md-7 mx-auto">Make good things happen</h1>
+    </div>
+    <div class="col-5 text-center mx-auto pt-3">
+        <span class="second-bloc" style="font-size: 20px;line-height: 34px">Are you working on an awesome project? Great, we love those. How about you pitch us
+        your idea so we can get you started?
+          </span>
+    </div>
+  </div>
+
+ <section class="container" id="main-container">
+   <form class="mb-4 mt-4 p-4" #addProjectForm="ngForm" (ngSubmit)="onAddProject(addProjectForm)" enctype="multipart/form-data">
+
+     <div class="form-group row d-flex justify-content-center">
+       <label for="title" class="col-md-4 col-form-label">A good title for your project </label>
+       <div class="col-md-6">
+         <input type="text" class="form-control" name="titleProject" id="title"
+                required minlength="10" maxlength="100" [(ngModel)]="newProject.name"  #titleProject="ngModel"/>
+
+         <div *ngIf="titleProject.touched && !titleProject.valid" class="alert alert-danger">
+           <div *ngIf="titleProject.errors?.required">Please provide us the Title of your project!</div>
+           <div *ngIf="titleProject.errors?.maxlength">The Title must not exceed 30 characters</div>
+           <div *ngIf="titleProject.errors?.minlength">The Title must be at least 10 characters</div>
+         </div>
+       </div>
+     </div>
+
+     <div class="form-group row d-flex justify-content-center" >
+       <label for="projectDescTextArea" class="col-md-4 col-form-label" >Your Project in a few words </label>
+       <div class="col-md-6">
+        <textarea class="form-control" id="projectTextArea" name="shortIdea" rows="2"
+                  required minlength="10" maxlength="100" [(ngModel)]="newProject.shortIdea"  #shortIdea="ngModel"></textarea>
+
+         <div *ngIf="shortIdea.touched && !shortIdea.valid" class="alert alert-danger">
+           <div *ngIf="shortIdea.errors?.required">Please provide us the idea of your project!</div>
+           <div *ngIf="shortIdea.errors?.maxlength">The Text must not exceed 400 characters</div>
+           <div *ngIf="shortIdea.errors?.minlength">The Text must be at least 100 characters</div>
+         </div>
+       </div>
+     </div>
+
+     <div class="form-group row d-flex justify-content-center" >
+       <label for="projectDescTextArea" class="col-md-4 col-form-label" >Pitch us your business or charity project</label>
+       <div class="col-md-6">
+        <textarea class="form-control" id="projectDescTextArea" name="idea" rows="4"
+                  placeholder="What can you tell us about your project in one minute?"
+                  required minlength="10" maxlength="400" [(ngModel)]="newProject.description"  #idea="ngModel"></textarea>
+
+         <div *ngIf="idea.touched && !idea.valid" class="alert alert-danger">
+           <div *ngIf="idea.errors?.required">Please provide us the idea of your project!</div>
+           <div *ngIf="idea.errors?.maxlength">The Text must not exceed 400 characters</div>
+           <div *ngIf="idea.errors?.minlength">The Text must be at least 100 characters</div>
+         </div>
+       </div>
+     </div>
+
+     <div class="form-group row d-flex justify-content-center">
+       <label for="amount" class="col-md-4 col-form-label">What is the amount you need to raise on CrowdFunding? </label>
+       <div class="col-md-6">
+         <input type="number" class="form-control" name="fundgoal" id="amount" placeholder="100 $"
+                required  [(ngModel)]="newProject.fundGoal"  #fundgoal="ngModel"/>
+
+         <div *ngIf="fundgoal.touched && !fundgoal.valid" class="alert alert-danger">
+           <div *ngIf="fundgoal.errors?.required">Please provide us the amount that you need for your project</div>
+         </div>
+       </div>
+     </div>
+
+     <div class="form-group row d-flex justify-content-center">
+       <label for="amount" class="col-md-4 col-form-label">Your project will end In? </label>
+       <div class="col-md-6">
+         <input type="text" class="form-control" placeholder="12/11/2021" name="endDate"
+                id="endDateInput" required="required" [(ngModel)]="newProject.endDate" #endDate="ngModel" bsDatepicker/>
+
+         <div *ngIf="endDate.touched && !endDate.valid" class="alert alert-danger">
+           <div *ngIf="endDate.errors?.required">Please provide us the end Date of you project!</div>
+         </div>
+       </div>
+     </div>
+
+
+    <div class="form-group row d-flex justify-content-center">
+       <label class="col-md-4 col-form-label">Purpose of your project? </label>
+       <div class="col-md-6">
+         <div class="form-check form-check-inline p-2 col-md-3 ml-4">
+           <input class="form-check-input" type="radio" name="charity" id="radio1" value="charity"
+                  [(ngModel)]="newProject.category" checked="checked">
+           <label class="form-check-label" for="radio1">Charity</label>
+         </div>
+         <div class="form-check form-check-inline p-2 col-md-3">
+           <input class="form-check-input" type="radio" name="business" id="radio2" value="business" [(ngModel)]="newProject.category">
+           <label class="form-check-label" for="radio2">Business</label>
+         </div>
+       </div>
+     </div>
+
+     <div class="form-group row d-flex justify-content-center">
+       <label for="amount" class="col-md-4 col-form-label">Please provide us a picture representing your project idea </label>
+       <div class="col-md-6">
+         <input class="form-control form-control-lg" id="imgUp" type="file" required="required" name="img"
+                [(ngModel)]="newProject.imgUrl" #img="ngModel" (change)="onFileChange($event)" accept="image/jpeg, image/png"/>
+         <div *ngIf="img.touched && !img.valid" class="alert alert-danger">
+           <div *ngIf="img.errors?.required">Please provide us a picture!</div>
+         </div>
+       </div>
+     </div>
+     <div class="form-group row d-flex justify-content-end">
+       <button [disabled]="addProjectForm.invalid" type="submit" class="btn btn-lg btn-block col-md-4">Start your project</button>
+     </div>
+   </form>
+ </section>

@@ -1,0 +1,44 @@
+<app-nav-user></app-nav-user>
+<div class="d-flex flex-column header">
+  <div class="">
+    <h1 class="first-block col-md-7 mx-auto">Make good things happen</h1>
+  </div>
+
+</div>
+
+<section class="container" id="main-container">
+  <form class="mb-4 mt-4 p-4" #announcementForm="ngForm" (ngSubmit)="publish(announcementForm)">
+
+    <div class="form-group row d-flex justify-content-center">
+      <label for="entrepName" class="col-md-4 col-form-label">Welcome Mr/Mme </label>
+      <div class="col-md-6">
+        <input type="text" readonly class="form-control-plaintext" id="entrepName" value="Oumaima KZIBER">
+      </div>
+    </div>
+
+    <div class="form-group row d-flex justify-content-center">
+      <label for="title" class="col-md-4 col-form-label"> Project </label>
+      <div class="col-md-6">
+        <select name="project" id="title" class="form-control" [(ngModel)]="projectId">
+          <option value="" selected disabled>--Please choose a project--</option>
+          <option *ngFor="let project of projects" [value]="project.id">{{project.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row d-flex justify-content-center">
+      <label for="projectDescTextArea" class="col-md-4 col-form-label" >What would you like to anounce ?</label>
+      <div class="col-md-6">
+        <textarea class="form-control" name="msg" id="projectDescTextArea" rows="3" [(ngModel)]="newAnnouncement.message"></textarea>
+      </div>
+    </div>
+
+
+
+    <div class="form-group row d-flex justify-content-end">
+      <button type="submit" class="btn btn-lg btn-block col-md-4">Publish</button>
+    </div>
+{{announcementForm.value | json}}
+
+  </form>
+</section>

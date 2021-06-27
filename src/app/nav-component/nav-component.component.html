@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-lg">
+  <a class="navbar-brand btn" routerLink="/index">Crowd-Funding </a>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/newProject" style="width: 160px;text-align: center"><i class="fa fa-plus" aria-hidden="true"></i>
+          Start a Project</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn" (click)="onOpenModal('signIn')" >Sign In </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn register-btn" (click)="onOpenModal('register')" >Register <!--<span class="sr-only">(current)</span>--></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!--login modal-->
+<div id="loginUserModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="text-center">Login</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        <form #loginForm="ngForm" (ngSubmit)="onSignIn(loginForm)" class="form col-md-12 center-block">
+          <div class="form-group">
+            <input type="text" ngModel name="username" class="form-control input-lg" id="username" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <input type="password" ngModel name="password" class="form-control input-lg" id="password" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <button [disabled]="loginForm.invalid" class="btn btn-primary btn-lg btn-block">Sign In</button>
+            <span class="pull-right"><a (click)="onOpenModal('register')" href="#register">Register</a></span><span><a href="#">Need help?</a></span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="col-md-1accordion2">
+          <button class="btn" id="login-user-form" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--register modal-->
+<div id="registerUserModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="text-center">Register</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+      </div>
+      <div class="modal-body">
+        <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)" class="form col-md-12 center-block">
+          <div class="form-group">
+            <input type="text" ngModel name="username" class="form-control input-lg" id="username" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <input type="password" ngModel name="password" class="form-control input-lg" id="password" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <button [disabled]="registerForm.invalid" class="btn btn-primary btn-lg btn-block">Register</button>
+            <span class="pull-right"><a (click)="onOpenModal('signIn')" href="#signIn">Sign In</a></span><span><a href="#">Need help?</a></span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="col-md-1accordion2">
+          <button class="btn" id="register-user-form"data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

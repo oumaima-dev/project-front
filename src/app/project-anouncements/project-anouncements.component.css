@@ -1,0 +1,73 @@
+@import url('http://fonts.cdnfonts.com/css/sofia-pro');
+
+.header{
+  height: 360px;
+  text-align: center;
+  position: relative;
+  padding-top: 100px;
+}
+.header::before{
+  content: "";
+  background-image: url("/assets/images/art.jpg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 80px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.5;
+}
+.first-block{
+  color: rgb(255, 255, 255);
+  text-shadow: 1px 1px black;
+  font-family: sofia-pro-condensed, sans-serif;
+  font-size: 50px;
+  font-weight: 900;
+  font-style: italic;
+  padding-top: 70px;
+}
+.form-control{
+  border-radius: unset!important;
+}
+.col-form-label{
+  position: relative;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  font-family: sofia-pro, sans-serif;
+}
+.col-form-label:after {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 20%;
+  height: 50%;
+  border-left: 3px solid #FFDAB9;
+}
+.form-group{
+  padding: 12px;
+}
+.form-check{
+  font-size: 1.2em;
+  font-family: sofia-pro, sans-serif;
+}
+.form-control-plaintext{
+  font-size: 1.2em;
+  font-family: sofia-pro, sans-serif;
+  font-weight: bold;
+}
+section{
+  padding-bottom: 40px;
+}
+.btn{
+  margin-right: 100px;
+  border-radius: unset!important;
+  background-color:#FFDAB9;
+  border: none!important;
+  text-transform: uppercase;
+  color: white!important;
+}
+.btn:hover{
+  background-color:#FC9983;
+}

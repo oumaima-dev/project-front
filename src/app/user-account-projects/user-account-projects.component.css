@@ -1,0 +1,23 @@
+.btn-info{
+  background-color:white;
+  border: 1px solid #FFDAB9!important;
+  color: black;
+  border-radius:unset!important;
+}
+.btn-info:hover{
+  background-color: #FFDAB9;
+}
+.category{
+  text-transform: uppercase;
+}
+section{
+  border-bottom: 1px solid lightgray;
+  margin-top: 50px;
+}
+img{
+  float: left;
+  width:  200px;
+  height: 100px;
+  object-fit: cover;
+}
+
