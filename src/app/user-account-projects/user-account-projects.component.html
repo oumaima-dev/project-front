@@ -68,13 +68,13 @@
             <h3 >{{project.name}}</h3>
             <p>{{getDate(project.creationDate)}}</p>
             <div>
-            <p class="description" style="word-wrap: break-word;">{{project.description}}</p>
+            <p class="description" style="word-wrap: break-word;">{{project.shortIdea}}</p>
             </div>
           </div>
           <div class="col-md-3 ml-5">
             <p class="mt-sm" style="font-weight: bold">{{project.fundGoal}}$</p>
             <p class="text-muted category">{{project.category}}</p>
-            <a class="btn btn-primary btn-info btn-sm" routerLink="/details">Learn More</a>
+            <a class="btn btn-primary btn-info btn-sm" [routerLink]="['/projects', project.id]">Learn More</a>
           </div>
         </div>
       </div>

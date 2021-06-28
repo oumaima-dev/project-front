@@ -10,12 +10,12 @@ import {UserAccountProjectsComponent} from './user-account-projects/user-account
 const routes: Routes = [
   {path: 'index', component: ProjectComponentComponent},
   {path: '', redirectTo: '/index', pathMatch: 'full'},
-  {path: 'myAccount', component: UserAccountComponent},
-  {path: '', redirectTo: '/myAccount', pathMatch: 'full'},
+  {path: 'projects', component: UserAccountComponent},
+  {path: '', redirectTo: '/projects', pathMatch: 'full'},
   {path: 'newAnouncement', component: ProjectAnouncementsComponent},
   {path: '', redirectTo: '/newAnouncement', pathMatch: 'full'},
   {path: '', redirectTo: '/details', pathMatch: 'full'},
-  {path: 'details', component: ProjectDetailsComponent},
+  {path: 'projects/:id', component: ProjectDetailsComponent},
   {path: 'newProject', component: PublishProjectComponent },
   {path: '', redirectTo: '/newProject', pathMatch: 'full'}
 ];

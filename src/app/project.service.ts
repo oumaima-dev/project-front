@@ -20,6 +20,9 @@ export class ProjectService {
     return this.http.get<Project[]>(`${this.apiUrl}/projects/all`);
   }
 
+  public getProjectById(projectId: string): Observable<Project>{
+    return this.http.get<Project>(`${this.apiUrl}/projects/${projectId}`);
+  }
 /*  public addProject(project: Project): Observable<Project>{
     return this.http.post<Project>(`${this.apiUrl}/projects/add`, project);
   }*/
@@ -38,6 +41,9 @@ export class ProjectService {
     return this.http.post<any>(`${this.apiUrl}/projects/${projectId}/newAnnouncement`, announcement);
   }
 
+  public getAnnouncements(projectId: string): Observable<Announcement[]> {
+    return this.http.get<Announcement[]>(`${this.apiUrl}/projects/${projectId}/getAnnouncement`);
+  }
 }
 
 

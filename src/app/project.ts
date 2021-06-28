@@ -8,12 +8,13 @@ export class Project{
     endDate: Date;
     category: string;
     imgUrl: string;
-    announcement: Announcement;
+    announcement: Announcement[];
 }
 
 export class Announcement{
   id: string;
   message: string;
+  annCreationDate: Date;
 }
 
 enum Category {
