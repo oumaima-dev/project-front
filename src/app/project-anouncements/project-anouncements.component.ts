@@ -34,6 +34,7 @@ export class ProjectAnouncementsComponent implements OnInit {
 
 
   public publish(announcementForm: NgForm): void{
+    this.newAnnouncement.annCreationDate = new Date();
     this.projectService.addAnnouncement(this.newAnnouncement, this.projectId).subscribe(
       (response: any) => {
         console.log(response);

@@ -11,15 +11,15 @@
         <div class=" m-4">
           <div class="row">
             <div><span style="font-weight:bold">Category :</span></div>
-            <div class="ml-3">
+            <div class="ml-5 mt-2">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"
-                       [(ngModel)]="filter.business" (ngModelChange)="filterChange()">
+                <input class="form-check-input" type="checkbox" name="business" id="inlineCheckbox1"
+                       (change)="onChange($event)" value="business">
                 <label class="form-check-label" for="inlineCheckbox1">Business</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2"
-                       [(ngModel)]="filter.charity" (ngModelChange)="filterChange()">
+                <input class="form-check-input" type="checkbox" name="charity" id="inlineCheckbox2"
+                       (change)="onChange($event)" value="charity">
                 <label class="form-check-label" for="inlineCheckbox2">Charity</label>
               </div>
             </div>
@@ -33,8 +33,8 @@
                 <div><span>From</span></div>
                 <div class="col-md-8">
                   <div class="input-group date form_date" data-date="2020-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
-                    <input type="text" class="form-control">
-                    <span class="input-group-addon bg-blue"><i class="fa fa-th"></i></span>
+                    <input type="date" class="form-control" name="startDate"
+                           id="startDateInput" (change)="onStartDateChange($event)" />
                   </div>
                 </div>
               </div>
@@ -42,8 +42,8 @@
                 <div><span>To</span></div>
                 <div class="col-md-8">
                   <div class="input-group date form_date " data-date="2021-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2">
-                    <input type="text" class="form-control">
-                    <span class="input-group-addon bg-blue"><i class="fa fa-th"></i></span>
+                    <input type="date" class="form-control" placeholder="10/12/2021" name="endDate"
+                           id="endDateInput" (change)="onEndDateChange($event)"/>
                   </div>
                 </div>
               </div>

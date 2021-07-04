@@ -13,7 +13,30 @@
         <a class=" btn"  ><i class="fa fa-comment" aria-hidden="true"></i></a>
       </li>
       <li class="nav-item  ">
-        <a class="nav-link btn register-btn">Sign Out <!--<span class="sr-only">(current)</span>--></a>
+
+        <div class="container">
+            <div class="col-md pl-4 user-dropdown text-center">
+              <div class="dropdown btn-group">
+                <a class="navbar-brand dropdown-toggle" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: lowercase;font-size: 1em">
+                <img src="http://placehold.it/20x20" class="profile-image rounded-circle"> Username <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="" >
+                      <i class="fa fa-sign-out"></i>Logout
+                    </a>
+                    <form id="frm-logout" action="" method="POST" style="display: none;">
+
+                    </form>
+                    <hr>
+                  </li>
+                  <li><a href=""><i class="fa fa-edit"></i>Edit My Profil</a></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+
+
+        <!--<a class="nav-link btn register-btn">Sign Out <span class="sr-only">(current)</span></a>-->
       </li>
     </ul>
   </div>

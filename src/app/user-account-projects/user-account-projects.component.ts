@@ -13,8 +13,9 @@ export class UserAccountProjectsComponent implements OnInit {
 
   projects: Project[];
   filteredProjects: Project[];
-  filter = {charity: true, business: true};
   dat: string;
+  startDate: string;
+  endDate: string;
 
 
   constructor(private projectService: ProjectService) { }
@@ -36,10 +37,37 @@ export class UserAccountProjectsComponent implements OnInit {
      this.dat = formatDate(date, 'dd/MM/yyyy', 'en-US');
      return this.dat;
   }
-  filterChange(): void{
-    this.filteredProjects = this.projects.filter(x =>
-      (x.category === 'business' && this.filter.business)
-      || (x.category === 'donation' && this.filter.charity)
-    );
+  onChange(e): void{
+    if (e.target.checked){
+      console.log(e.target.value);
+      this.filteredProjects = this.projects.filter(p => p.category.toLowerCase() === e.target.value);
+      console.log(this.filteredProjects);
+      this.projects = this.filteredProjects;
+    }
+    else{
+      this.getProjects();
+    }
   }
+
+  onStartDateChange(e): string{
+    this.startDate = this.getDate(e.target.value);
+    console.log(this.startDate);
+    this.filteredProjects = this.projects.filter(d => this.getDate(d.creationDate) >= this.startDate);
+    this.projects = this.filteredProjects;
+    return this.startDate;
+    // let.selectedMembers = this.members.filter(
+      // m => new Date(m.date) >= new Date(startDate) && new Date(m.date) <= new Date(endDate)
+    // );
+  }
+
+  onEndDateChange(e): string{
+    this.endDate = this.getDate(e.target.value);
+    console.log(this.endDate);
+    this.filteredProjects = this.projects.filter(d => this.getDate(d.creationDate) >= this.startDate);
+    return this.endDate;
+  }
+  public filterBydate(): void{
+    this.filteredProjects
+  }
+
 }

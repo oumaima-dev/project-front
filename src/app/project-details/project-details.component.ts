@@ -40,13 +40,20 @@ export class ProjectDetailsComponent implements OnInit {
     );
   }
   public getDate(date: Date): string{
-    this.dat = formatDate(date, 'dd/MM/yyyy', 'en-US');
-    return this.dat;
+    if (date != null){
+      this.dat = formatDate(date, 'dd/MM/yyyy', 'en-US');
+      return this.dat;
+    }
+    else{
+      return null;
+    }
   }
   public getAnnouncements(): void{
     this.projectService.getAnnouncements(this.id).subscribe(
       (response: Announcement[]) => {
-        this.announcements = response;
+        if (response != null){
+          this.announcements = response;
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

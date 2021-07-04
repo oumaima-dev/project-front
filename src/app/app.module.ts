@@ -16,6 +16,8 @@ import { UserAccountProjectsComponent } from './user-account-projects/user-accou
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { UserProjectsComponent } from './user-projects/user-projects.component';
+import { UserInvestmentsComponent } from './user-investments/user-investments.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     PublishProjectComponent,
     NavUserComponent,
     UserAccountComponent,
-    UserAccountProjectsComponent
+    UserAccountProjectsComponent,
+    UserProjectsComponent,
+    UserInvestmentsComponent
   ],
   imports: [
     BrowserModule,

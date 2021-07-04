@@ -8,15 +8,15 @@
 
               <div class="col-md-3 mt-3">
                 <div class="row d-flex justify-content-end">
-                  <button type="button" class="btn btn-lg btn-block">View My Projects</button>
+                  <button type="button" class="btn btn-lg btn-block" routerLink="myProjects">View My Projects</button>
                 </div>
 
                 <div class="row d-flex justify-content-end">
-                  <button type="button" class="btn btn-lg btn-block">View My Investments</button>
+                  <button type="button" class="btn btn-lg btn-block" routerLink="myInvestments">View My Investments</button>
                 </div>
 
                 <div class="row d-flex justify-content-end">
-                  <button type="button" class="btn btn-lg btn-block">Explore New Projects</button>
+                  <button type="button" class="btn btn-lg btn-block" routerLink="newProjects">Explore New Projects</button>
                 </div>
 
                 <div class="row d-flex justify-content-end">
@@ -25,7 +25,7 @@
               </div>
 
               <div class="col-md-8 ml-5 mt-3">
-                <app-user-account-projects></app-user-account-projects>
+                <router-outlet></router-outlet>
               </div>
 
             </div>

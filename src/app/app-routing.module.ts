@@ -6,18 +6,23 @@ import {ProjectAnouncementsComponent} from './project-anouncements/project-anoun
 import {PublishProjectComponent} from './publish-project/publish-project.component';
 import {UserAccountComponent} from './user-account/user-account.component';
 import {UserAccountProjectsComponent} from './user-account-projects/user-account-projects.component';
+import {UserProjectsComponent} from './user-projects/user-projects.component';
+import {UserInvestmentsComponent} from './user-investments/user-investments.component';
 
 const routes: Routes = [
+  {path: '', redirectTo: 'index', pathMatch: 'full'},
   {path: 'index', component: ProjectComponentComponent},
-  {path: '', redirectTo: '/index', pathMatch: 'full'},
-  {path: 'projects', component: UserAccountComponent},
-  {path: '', redirectTo: '/projects', pathMatch: 'full'},
   {path: 'newAnouncement', component: ProjectAnouncementsComponent},
-  {path: '', redirectTo: '/newAnouncement', pathMatch: 'full'},
-  {path: '', redirectTo: '/details', pathMatch: 'full'},
   {path: 'projects/:id', component: ProjectDetailsComponent},
   {path: 'newProject', component: PublishProjectComponent },
-  {path: '', redirectTo: '/newProject', pathMatch: 'full'}
+  {path: 'user', component: UserAccountComponent,
+  children: [
+    {path: '', redirectTo: 'newProjects', pathMatch: 'full'},
+    {path: 'newProjects', component: UserAccountProjectsComponent },
+    {path: 'myProjects', component: UserProjectsComponent},
+    {path: 'myInvestments', component: UserInvestmentsComponent}
+  ]
+  }
 ];
 
 @NgModule({

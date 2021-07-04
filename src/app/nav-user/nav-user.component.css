@@ -14,6 +14,10 @@
   text-transform: uppercase;
   font-size: 1.3em;
 }
+.navbar-brand .user{
+  font-size: 0.5em!important;
+  text-transform: lowercase!important;
+}
 .nav-link{
   margin-left: 10px;
   padding: 8px;
@@ -40,5 +44,28 @@
   margin-right: 5px;
 }
 .fa-bell:hover,.fa-comment:hover{
+  color: #FC9983;
+}
+.user-dropdown .dropdown-menu {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  top: 100% !important;
+}
+.dropdown-toggle{
+  padding: 8px;
+  font-size: 1.1em;
+  width: 120px;
+  color: black;
+}
+.dropdown-menu a{
+  padding: 8px;
+  font-size: 1em;
+  color: black;
+  text-decoration: none;
+}
+.dropdown-menu a:hover{
+  color: #FFDAB9;
+}
+.dropdown a:hover{
   color: #FC9983;
 }
