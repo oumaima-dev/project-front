@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import {ProjectService} from '../project.service';
 import {Project} from '../project';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-publish-project',
@@ -14,7 +15,8 @@ export class PublishProjectComponent implements OnInit {
   newProject: Project = new Project();
   img: File;
   imgFile: File;
-  constructor(private projectService: ProjectService) { }
+  userId: string ; // get user_id from authentication service
+  constructor(private projectService: ProjectService, private router: Router) { }
 
 
   ngOnInit(): void {
@@ -33,11 +35,11 @@ export class PublishProjectComponent implements OnInit {
 
 
   onAddProject(addProjectForm: NgForm): void {
-    const formData = new FormData();
-    this.projectService.addProject(this.newProject, this.imgFile).subscribe(
+    this.userId = '10';
+    this.projectService.addProject(this.newProject, this.userId, this.imgFile).subscribe(
       (response: Project) => {
         console.log(response);
-        alert('project added succefly');
+        this.router.navigateByUrl('/user/myProjects');
       },
       (error: HttpErrorResponse) => {
         alert((error.message));

@@ -8,21 +8,24 @@ import {UserAccountComponent} from './user-account/user-account.component';
 import {UserAccountProjectsComponent} from './user-account-projects/user-account-projects.component';
 import {UserProjectsComponent} from './user-projects/user-projects.component';
 import {UserInvestmentsComponent} from './user-investments/user-investments.component';
+import {EditProjectComponent} from './edit-project/edit-project.component';
+import {UserProjectsDetailsComponent} from './user-projects-details/user-projects-details.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'index', pathMatch: 'full'},
   {path: 'index', component: ProjectComponentComponent},
   {path: 'newAnouncement', component: ProjectAnouncementsComponent},
   {path: 'projects/:id', component: ProjectDetailsComponent},
+  {path: 'usersprojects/:id', component: UserProjectsDetailsComponent},
   {path: 'newProject', component: PublishProjectComponent },
   {path: 'user', component: UserAccountComponent,
   children: [
     {path: '', redirectTo: 'newProjects', pathMatch: 'full'},
     {path: 'newProjects', component: UserAccountProjectsComponent },
     {path: 'myProjects', component: UserProjectsComponent},
-    {path: 'myInvestments', component: UserInvestmentsComponent}
-  ]
-  }
+    {path: 'myInvestments', component: UserInvestmentsComponent},
+  ]},
+  {path: 'edit/:id', component: EditProjectComponent}
 ];
 
 @NgModule({

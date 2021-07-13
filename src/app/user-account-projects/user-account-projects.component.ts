@@ -16,7 +16,7 @@ export class UserAccountProjectsComponent implements OnInit {
   dat: string;
   startDate: string;
   endDate: string;
-
+  userId: string;
 
   constructor(private projectService: ProjectService) { }
 
@@ -27,6 +27,7 @@ export class UserAccountProjectsComponent implements OnInit {
     this.projectService.getProjects().subscribe(
       (response: Project[]) => {
         this.projects = response;
+        // this.projects = response.filter(p => p.userId !== this.userId);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -67,7 +68,7 @@ export class UserAccountProjectsComponent implements OnInit {
     return this.endDate;
   }
   public filterBydate(): void{
-    this.filteredProjects
+    // this.filteredProjects;
   }
 
 }

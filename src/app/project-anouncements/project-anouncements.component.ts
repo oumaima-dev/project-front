@@ -3,6 +3,9 @@ import {Announcement, Project} from '../project';
 import {ProjectService} from '../project.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
+import {NotificationType} from '../enum/notification-type';
+import {NotificationService} from '../notification.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-project-anouncements',
@@ -16,7 +19,7 @@ export class ProjectAnouncementsComponent implements OnInit {
   projectId: string;
 
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService,  private notificationService: NotificationService, private router: Router) { }
 
   ngOnInit(): void {
     this.getProjects();
@@ -38,12 +41,21 @@ export class ProjectAnouncementsComponent implements OnInit {
     this.projectService.addAnnouncement(this.newAnnouncement, this.projectId).subscribe(
       (response: any) => {
         console.log(response);
-        alert('announcement added succefly');
+        // this.sendNotification(NotificationType.SUCCESS, 'announcement added successfully');
+        this.router.navigateByUrl('/user/myProjects');
       },
       (error: HttpErrorResponse) => {
         alert((error.message));
       }
     );
     console.log(this.projectId, this.newAnnouncement);
+  }
+
+  private sendNotification(notificationType: NotificationType, message: string): void {
+    if (message) {
+      this.notificationService.showNotification(notificationType, message);
+    } else {
+      this.notificationService.showNotification(notificationType, 'An error occurred. Please try again');
+    }
   }
 }

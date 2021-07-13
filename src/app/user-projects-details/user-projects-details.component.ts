@@ -1,27 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import {Announcement, Project} from '../project';
 import {ProjectService} from '../project.service';
+import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {formatDate} from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import {Observable} from 'rxjs';
-import {NgForm} from '@angular/forms';
-import {FundProject} from '../fundProject';
 
 @Component({
-  selector: 'app-project-details',
-  templateUrl: './project-details.component.html',
-  styleUrls: ['./project-details.component.css']
+  selector: 'app-user-projects-details',
+  templateUrl: './user-projects-details.component.html',
+  styleUrls: ['./user-projects-details.component.css']
 })
-export class ProjectDetailsComponent implements OnInit {
-
+export class UserProjectsDetailsComponent implements OnInit {
   project: Project;
   dat: string;
   id: string;
   announcements: Announcement[];
-  funds: number;
-  fundProject: FundProject = new FundProject();
-  userId: string;
   constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -65,20 +58,4 @@ export class ProjectDetailsComponent implements OnInit {
     );
   }
 
-  public saveFund(projectId: string): void {
-      this.fundProject.projectId = projectId;
-      this.userId = '10';
-      this.fundProject.funds = this.funds;
-      console.log(this.fundProject);
-      this.projectService.fundProject(this.fundProject, this.userId, this.funds).subscribe(
-      (response: any) => {
-          console.log(this.fundProject.funds);
-          alert('funded');
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-
-  }
 }

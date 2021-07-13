@@ -18,7 +18,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { UserProjectsComponent } from './user-projects/user-projects.component';
 import { UserInvestmentsComponent } from './user-investments/user-investments.component';
+import { EditProjectComponent } from './edit-project/edit-project.component';
+import { UserProjectsDetailsComponent } from './user-projects-details/user-projects-details.component';
 
+import {NotificationModule} from './notification.module';
+import {NotificationService} from './notification.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,9 @@ import { UserInvestmentsComponent } from './user-investments/user-investments.co
     UserAccountComponent,
     UserAccountProjectsComponent,
     UserProjectsComponent,
-    UserInvestmentsComponent
+    UserInvestmentsComponent,
+    EditProjectComponent,
+    UserProjectsDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -41,9 +47,10 @@ import { UserInvestmentsComponent } from './user-investments/user-investments.co
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    NotificationModule
   ],
-  providers: [],
+  providers: [NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
