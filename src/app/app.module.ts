@@ -23,6 +23,8 @@ import { UserProjectsDetailsComponent } from './user-projects-details/user-proje
 
 import {NotificationModule} from './notification.module';
 import {NotificationService} from './notification.service';
+import { HomePageComponent } from './home-page/home-page.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import {NotificationService} from './notification.service';
     UserProjectsComponent,
     UserInvestmentsComponent,
     EditProjectComponent,
-    UserProjectsDetailsComponent
+    UserProjectsDetailsComponent,
+    HomePageComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

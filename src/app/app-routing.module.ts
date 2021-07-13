@@ -10,10 +10,11 @@ import {UserProjectsComponent} from './user-projects/user-projects.component';
 import {UserInvestmentsComponent} from './user-investments/user-investments.component';
 import {EditProjectComponent} from './edit-project/edit-project.component';
 import {UserProjectsDetailsComponent} from './user-projects-details/user-projects-details.component';
+import {HomePageComponent} from './home-page/home-page.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'index', pathMatch: 'full'},
-  {path: 'index', component: ProjectComponentComponent},
+  {path: 'index', component: HomePageComponent},
   {path: 'newAnouncement', component: ProjectAnouncementsComponent},
   {path: 'projects/:id', component: ProjectDetailsComponent},
   {path: 'usersprojects/:id', component: UserProjectsDetailsComponent},
