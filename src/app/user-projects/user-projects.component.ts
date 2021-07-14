@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Project} from '../project';
+import {Project} from '../model/project';
 import {HttpErrorResponse} from '@angular/common/http';
-import {ProjectCreatorService} from '../project-creator.service';
+import {ProjectCreatorService} from '../service/project-creator.service';
 import {formatDate} from '@angular/common';
-import {ProjectService} from '../project.service';
+import {ProjectService} from '../service/project.service';
 
 
 @Component({

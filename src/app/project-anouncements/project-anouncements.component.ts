@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Announcement, Project} from '../project';
-import {ProjectService} from '../project.service';
+import {Announcement, Project} from '../model/project';
+import {ProjectService} from '../service/project.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
-import {NotificationType} from '../enum/notification-type';
-import {NotificationService} from '../notification.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -19,7 +17,7 @@ export class ProjectAnouncementsComponent implements OnInit {
   projectId: string;
 
 
-  constructor(private projectService: ProjectService,  private notificationService: NotificationService, private router: Router) { }
+  constructor(private projectService: ProjectService, private router: Router) { }
 
   ngOnInit(): void {
     this.getProjects();
@@ -49,13 +47,5 @@ export class ProjectAnouncementsComponent implements OnInit {
       }
     );
     console.log(this.projectId, this.newAnnouncement);
-  }
-
-  private sendNotification(notificationType: NotificationType, message: string): void {
-    if (message) {
-      this.notificationService.showNotification(notificationType, message);
-    } else {
-      this.notificationService.showNotification(notificationType, 'An error occurred. Please try again');
-    }
   }
 }

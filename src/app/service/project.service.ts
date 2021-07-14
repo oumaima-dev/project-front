@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Announcement, Project} from './project';
-import {environment} from '../environments/environment';
-import {FundProject} from './fundProject';
+import {Announcement, Project} from '../model/project';
+import {environment} from '../../environments/environment';
+import {FundProject} from '../model/fundProject';
 
 
 

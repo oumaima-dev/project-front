@@ -1,11 +1,10 @@
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ProjectComponentComponent } from './project-component/project-component.component';
 import { NavComponentComponent } from './nav-component/nav-component.component';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { ProjectAnouncementsComponent } from './project-anouncements/project-anouncements.component';
@@ -20,16 +19,25 @@ import { UserProjectsComponent } from './user-projects/user-projects.component';
 import { UserInvestmentsComponent } from './user-investments/user-investments.component';
 import { EditProjectComponent } from './edit-project/edit-project.component';
 import { UserProjectsDetailsComponent } from './user-projects-details/user-projects-details.component';
-
-import {NotificationModule} from './notification.module';
-import {NotificationService} from './notification.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { FooterComponent } from './footer/footer.component';
+import {UserService} from './service/user.service';
+import {AuthenticationService} from './service/authentication.service';
+import {AuthInterceptor} from './interceptor/auth.interceptor';
+import {AuthenticationGuard} from './guard/authentication.guard';
+import {NotificationModule} from './notification.module';
+import {NotificationService} from './service/notification.service';
+import { UserComponent } from './user/user.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {ConfirmEqualValidatorDirective} from './utility/confirm-equal-validator.directive';
+// import {HomePageComponent} from "./home-page/home-page.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProjectComponentComponent,
     NavComponentComponent,
     ProjectDetailsComponent,
     ProjectAnouncementsComponent,
@@ -42,7 +50,14 @@ import { FooterComponent } from './footer/footer.component';
     EditProjectComponent,
     UserProjectsDetailsComponent,
     HomePageComponent,
-    FooterComponent
+    FooterComponent,
+    AppComponent,
+    UserComponent,
+    RegisterComponent,
+    LoginComponent,
+    DashboardComponent,
+    // HomePageComponent,
+    ConfirmEqualValidatorDirective
   ],
   imports: [
     BrowserModule,
@@ -52,9 +67,11 @@ import { FooterComponent } from './footer/footer.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
-    NotificationModule
+    NotificationModule,
+    NgxPaginationModule
   ],
-  providers: [NotificationService],
+  providers: [NotificationService, AuthenticationGuard, UserService, AuthenticationService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

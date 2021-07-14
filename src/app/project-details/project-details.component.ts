@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Announcement, Project} from '../project';
-import {ProjectService} from '../project.service';
+import {Announcement, Project} from '../model/project';
+import {ProjectService} from '../service/project.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {formatDate} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import {Observable} from 'rxjs';
 import {NgForm} from '@angular/forms';
-import {FundProject} from '../fundProject';
+import {FundProject} from '../model/fundProject';
 
 @Component({
   selector: 'app-project-details',

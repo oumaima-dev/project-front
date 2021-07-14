@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {ProjectComponentComponent} from './project-component/project-component.component';
 import {ProjectDetailsComponent} from './project-details/project-details.component';
 import {ProjectAnouncementsComponent} from './project-anouncements/project-anouncements.component';
 import {PublishProjectComponent} from './publish-project/publish-project.component';
@@ -11,9 +10,17 @@ import {UserInvestmentsComponent} from './user-investments/user-investments.comp
 import {EditProjectComponent} from './edit-project/edit-project.component';
 import {UserProjectsDetailsComponent} from './user-projects-details/user-projects-details.component';
 import {HomePageComponent} from './home-page/home-page.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {RegisterComponent} from './register/register.component';
+import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'index', pathMatch: 'full'},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  // { path: 'home', component: HomePageComponent},
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  // {path: '', redirectTo: 'index', pathMatch: 'full'},
   {path: 'index', component: HomePageComponent},
   {path: 'newAnouncement', component: ProjectAnouncementsComponent},
   {path: 'projects/:id', component: ProjectDetailsComponent},

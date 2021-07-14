@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ProjectService} from '../project.service';
+import {ProjectService} from '../service/project.service';
 import {ActivatedRoute} from '@angular/router';
-import {Project} from '../project';
+import {Project} from '../model/project';
 import {HttpErrorResponse} from '@angular/common/http';
 import {formatDate} from '@angular/common';
 
