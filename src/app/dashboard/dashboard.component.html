@@ -1,0 +1,385 @@
+<!-- Nav Bar -->
+<nav class="navbar navbar-expand-lg">
+  <a class="navbar-brand btn" routerLink="/index" style="text-: #17a2b8;">Crowd-Funding </a>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item mr-3">
+        <a class=" btn" ><i class="fa fa-bell" aria-hidden="true"></i></a>
+      </li>
+      <li class="nav-item mr-3">
+        <a class=" btn"  ><i class="fa fa-comment" aria-hidden="true"></i></a>
+      </li>
+      <li class="nav-item mr-3">
+        <a class=" btn"  (click)="onEditUserModel()" ><i class="fas fa-user-edit"></i></a>
+      </li>
+      <li class="nav-item mr-1">
+        <a class=" btn" (click)="onSignOut()"><i class="fas fa-sign-out-alt"></i></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Content Body -->
+<div class="container mt-6 mb-4" style="margin-top: 80px">
+  <div class="col-lg-9 mt-4 mt-lg-0">
+    <div class="row mb-2 mt-2 text-center">
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4">
+        <h5>User Management Portal</h5>
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+
+    <div class="row">
+      <!--search-->
+      <div class="mb-3 float-right">
+        <div class="btn-group mr-2">
+          <form #searchForm="ngForm"  class="form-inline my-2 my-lg-0 justify-content-center">
+            <input type="search" class="form-control mr-sm-2" ngModel (ngModelChange)="searchUsers(searchForm.value.searchString)" name="searchString" placeholder="Search users...">
+          </form>
+        </div>
+        <div class="btn-group">
+          <button type="button" (click)="getUsers(true)" class="btn btn-info">
+            <i *ngIf="refreshing" class="fas fa-sync fa-spin"></i><i *ngIf="!refreshing" class="fas fa-sync"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-2 mt-2 text-center">
+      <div class="col-md-12">
+        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
+          <table class="table manage-candidates-top mb-0 table-hover">
+            <thead>
+            <tr>
+              <th>Username</th>
+              <th class="text-center">Created</th>
+              <th class="text-center">Status</th>
+              <th class="action text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let user of users | paginate: { itemsPerPage: 4, currentPage: page }" class="candidates-list">
+              <td class="title">
+                <div class="thumb">
+                  <img (click)="onSelectUser(user)" class="img-fluid" src="{{user?.profileImageUrl}}" alt="">
+                </div>
+                <div class="candidate-list-details">
+                  <div class="candidate-list-info">
+                    <div class="candidate-list-title">
+                      <h5  (click)="onSelectUser(user)" class="mb-0 text-left">{{user.username}}</h5>
+                    </div>
+                    <div class="candidate-list-option">
+                      <ul (click)="onSelectUser(user)" class="list-unstyled">
+                        <li [hidden]="!user.role.includes('ROLE_USER')" ><i class="fas fa-user pr-1"></i>Normal User</li>
+                        <li [hidden]="!user.role.includes('ROLE_ADMIN')" ><i class="fas fa-user pr-1"></i>Admin</li>
+                      </ul>
+                      <ul (click)="onSelectUser(user)" class="list-unstyled">
+                        <li><i class="fas fa-envelope-open pr-1" ></i>{{user.email}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="candidate-list-favourite-time text-center">
+                <i class="fa fa-calendar-check order-2 text-danger"> &nbsp;</i>
+                <span  (click)="onSelectUser(user)" class="candidate-list-time order-1">{{user.joinDate | date:'fullDate'}}</span>
+              </td>
+              <td>
+                <span [hidden]="!user?.active" (click)="onSelectUser(user)" class="badge badge-success" >Active</span>
+                <span [hidden]="user?.active" (click)="onSelectUser(user)" class="badge badge-danger" >Inactive</span>
+              </td>
+              <td>
+                <ul class="list-unstyled mb-0 d-flex justify-content-end">
+                  <li><a  [hidden]="user.role.includes('ROLE_ADMIN')" class="text-primary" data-toggle="tooltip" title="" data-original-title="Chat"><i class="far fa-comment-dots"></i></a></li>
+                  <li><a  [hidden]="user.role.includes('ROLE_ADMIN')" (click)="onResetPasswordUserModel(user)" class="text-info" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-key"></i></a></li>
+                  <li><a  [hidden]="user.role.includes('ROLE_ADMIN')" (click)="onDeleteUserModel(user)" class="text-danger" data-toggle="tooltip" title="" data-original-title="Delete"><i class="far fa-trash-alt"></i></a></li>
+                </ul>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <pagination-controls (pageChange)="page=$event" ></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger User Info modal -->
+<button type="button" class="btn btn-primary" hidden id="openUserInfo" data-toggle="modal" data-target="#viewUserModel">
+  User Information
+</button>
+<!-- Button trigger Delete User modal -->
+<button type="button" class="btn btn-primary" hidden id="openUserDelete" data-toggle="modal" data-target="#deleteUserModel">
+  Delete User
+</button>
+<!-- Button trigger Reset Password User modal -->
+<button type="button" class="btn btn-primary" hidden id="openUserResetPassword" data-toggle="modal" data-target="#resetPasswordUserModel">
+  Edit User
+</button>
+<!-- Button trigger Edit User modal -->
+<button type="button" class="btn btn-primary" hidden id="openUserEdit" data-toggle="modal" data-target="#editUserModel">
+  Edit User
+</button>
+
+<!-- Modal User Info-->
+<div class="modal fade bd-example-modal-lg" id="viewUserModel" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{selectUser?.lastName}} {{selectUser?.firstName}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-sm-auto">
+                  <div class="mx-auto" style="width: 120px;">
+                    <div class="d-flex justify-content-center algin-items-center rounded">
+                      <img class="rounded" height="120" width="120" alt="" src="{{selectUser?.profileImageUrl}}">
+                    </div>
+                  </div>
+                </div>
+                <div class="col d-flex justify-content-between flex-column flex-sm-row">
+                  <div class="text-center text-sm-left mb-sm-0">
+                    <h6 *ngIf="selectUser?.lastName || selectUser?.firstName" class="pt-sm-2 pb-1 mb-0 text-nowrap">
+                      {{selectUser?.lastName}} {{selectUser?.firstName}}</h6>
+                    <p class="mb-1">{{selectUser?.username}}</p>
+                    <div class="">Status:
+                      <span [hidden]="!selectUser?.active" class="badge badge-success">Active</span>
+                      <span [hidden]="selectUser?.active" class="badge badge-danger">Inactive</span>
+                    </div>
+                    <div *ngIf="selectUser?.loginDateDisplay" class="text-muted"><small>Last Login: {{selectUser?.loginDateDisplay | date:'medium'}}</small>
+                    </div>
+                    <div class="text-muted"><small>Joined: {{selectUser?.joinDate | date:'medium'}}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"></li>
+              <li class="list-group-item"><i class="fa fa-id-badge float-right"></i>{{selectUser?.userId}}</li>
+              <li class="list-group-item"><i class="fa fa-envelope float-right"></i>{{selectUser?.email}}</li>
+              <li *ngIf="selectUser?.role" class="list-group-item"><i class="fa fa-shield-alt float-right"></i>{{selectUser.role.substring(5)}}</li>
+              <li *ngIf="selectUser?.loginDateDisplay" class="list-group-item"><i class="fa fa-sign-in-alt float-right"></i>{{selectUser?.loginDateDisplay | date:'medium'}}</li>
+              <li class="list-group-item">
+                <span [hidden]="selectUser?.notLocked">
+                  <i class="fa fa-lock float-right" style="color: red;"></i>Account Locked
+                </span>
+                <span [hidden]="!selectUser?.notLocked">
+                  <i class="fa fa-unlock float-right" style="color: green;"></i>Account Unlocked
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+<!--      {{selectUser?.email | json}}-->
+    </div>
+  </div>
+</div>
+
+<!-- Modal delete User-->
+<div class="modal draggable fade bd-example-modal-lg" id="deleteUserModel" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirmation!!</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the user: {{deleteUser?.username}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeDeleteModalButton">Close</button>
+        <button type="button" (click)="onDeleteUser()" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Reset Password User-->
+<div class="modal draggable fade bd-example-modal-lg" id="resetPasswordUserModel" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="resetPassUser.lastName && resetPassUser.firstName" class="modal-title text-center">Reset Password for {{resetPassUser?.lastName}} {{resetPassUser?.firstName}}</h5>
+        <h5 *ngIf="!(resetPassUser.lastName && resetPassUser.firstName)" class="modal-title text-center">Reset Password for {{resetPassUser?.username}}</h5>
+        <button (click)="resetPassForm.resetForm()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form #resetPassForm="ngForm" (ngSubmit)="onResetPassword(resetPassForm)">
+            <div class="form-group">
+              <label>Email</label>
+              <div class="input-group mb-3">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                <input class="form-control form-control-lg" type="email" name="email" value="{{currentEmail}}" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>New Password</label>
+              <div class="input-group mb-3">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input class="form-control form-control-lg" type="password" (input)="confirmPasswordInput.control.updateValueAndValidity()" ngModel #newPasswordInput="ngModel" name="newPassword" placeholder="New Password" required>
+              </div>
+              <div class="alert alert-danger" *ngIf="newPasswordInput.touched && !newPasswordInput.valid">
+                <div *ngIf="newPasswordInput.errors?.required">- New Password is required.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Confirm New Password</label>
+              <div class="input-group mb-3">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input class="form-control form-control-lg" type="password" appConfirmEqualValidator="newPassword" ngModel #confirmPasswordInput="ngModel" name="confirmPassword" placeholder="Confirm New Password" required>
+              </div>
+              <div class="alert alert-danger" *ngIf="confirmPasswordInput.touched && !confirmPasswordInput.valid" >
+                <div *ngIf="confirmPasswordInput.errors?.notEqual && newPasswordInput.value !='' && !confirmPasswordInput.errors?.required ">  - Confirm New Password and  New Password doesn't match</div>
+                <div *ngIf="confirmPasswordInput.errors?.required">- Confirm New Password is required.</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" (click)="resetPassForm.resetForm()" class="btn btn-secondary" data-dismiss="modal" id="closeResetPasswordModalButton">Close</button>
+              <button type="submit" [disabled]="resetPassForm.invalid" class="btn btn-primary">Reset Password</button>
+            </div>
+          </form>
+<!--          {{resetPassForm.value | json}}-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Update Current User Info-->
+<div class="modal draggable fade bd-example-modal-lg" id="editUserModel" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center">Edit Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-sm-auto">
+                  <div class="mx-auto" style="width: 120px;">
+                    <div class="d-flex justify-content-center algin-items-center rounded">
+                      <img class="rounded" height="120" width="120" alt="" src="{{editUser?.profileImageUrl}}">
+                    </div>
+                  </div>
+                </div>
+                <div class="col d-flex justify-content-between flex-column flex-sm-row">
+                  <div class="text-center text-sm-left mb-sm-0">
+                    <h6 *ngIf="editUser?.lastName || editUser?.firstName" class="pt-sm-2 pb-1 mb-0 text-nowrap">
+                      {{editUser?.lastName}} {{editUser?.firstName}}</h6>
+                    <p class="mb-1">{{editUser?.username}}</p>
+                    <div *ngIf="editUser?.loginDateDisplay" class="text-muted"><small>Last Login: {{editUser?.loginDateDisplay | date:'short'}}</small>
+                    </div>
+                    <div class="text-muted"><small>Joined {{editUser?.joinDate | date:'longDate'}}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center text-sm-right">
+                  <span class="badge badge-secondary" *ngIf="editUser.role.substring(5) == 'ADMIN'">administrator</span>
+                  <span class="badge badge-secondary" *ngIf="editUser.role.substring(5) == 'USER'">user</span>
+                  <div class="">
+                    <span [hidden]="editUser?.notLocked" class="badge badge-danger">Locked</span>
+                    <span [hidden]="!editUser?.notLocked" class="badge badge-success">Unlocked</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form #editForm="ngForm">
+          <div class="form-group">
+            <label>Username</label>
+            <div class="input-group mb-3">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input class="form-control form-control-lg" type="text" [(ngModel)]="editUser.username" name="username" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <div class="input-group mb-3">
+              <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+              <input class="form-control form-control-lg" type="email" [(ngModel)]="editUser.email" name="email" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>First Name</label>
+            <div class="input-group mb-3">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input class="form-control form-control-lg" type="text" [(ngModel)]="editUser.firstName" name="firstName" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <div class="input-group mb-3">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input class="form-control form-control-lg" type="text" [(ngModel)]="editUser.lastName" name="lastName" required>
+            </div>
+          </div>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Profile Picture</span>
+            </div>
+            <div class="custom-file">
+              <input type="file" name="profileImage"
+                     (change)="onProfileImageChange($event)"
+                     class="custom-file-input">
+              <label class="custom-file-label">
+                <span [hidden]="!fileName">{{fileName}}</span>
+                <span [hidden]="fileName">Choose File</span>
+              </label>
+            </div>
+          </div>
+          <fieldset class="form-group">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="editUser.active" name="active">
+                Active
+              </label>
+            </div>
+            <div class="form-check disabled">
+              <label class="form-check-label">
+                <input class="form-check-input" disabled readonly type="checkbox" [(ngModel)]="editUser.notLocked" name="locked">
+                Unlocked
+              </label>
+            </div>
+          </fieldset>
+        </form>
+        <!--          {{editForm.value | json}}-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeEditModalButton">Close</button>
+        <button type="button" (click)="onEditUser()" [disabled]="editForm.invalid" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
