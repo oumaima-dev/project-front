@@ -4,6 +4,8 @@ import {ProjectService} from '../service/project.service';
 import {Project} from '../model/project';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {User} from '../model/user';
+import {AuthenticationService} from '../service/authentication.service';
 
 @Component({
   selector: 'app-publish-project',
@@ -15,12 +17,15 @@ export class PublishProjectComponent implements OnInit {
   newProject: Project = new Project();
   img: File;
   imgFile: File;
-  userId: string ; // get user_id from authentication service
-  constructor(private projectService: ProjectService, private router: Router) { }
+  private currentLoggedUser: User = new User();
+  userId: string;
+  constructor(private projectService: ProjectService, private router: Router, private authenticationService: AuthenticationService) { }
 
 
   ngOnInit(): void {
     this.newProject.category = 'charity';
+    this.currentLoggedUser = this.authenticationService.getUserFromLocalCache();
+    this.userId = this.currentLoggedUser.userId;
   }
 
 
@@ -35,7 +40,7 @@ export class PublishProjectComponent implements OnInit {
 
 
   onAddProject(addProjectForm: NgForm): void {
-    this.userId = '10';
+    this.newProject.projectOwner = this.userId;
     this.projectService.addProject(this.newProject, this.userId, this.imgFile).subscribe(
       (response: Project) => {
         console.log(response);

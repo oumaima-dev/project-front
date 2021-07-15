@@ -4,6 +4,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ProjectCreatorService} from '../service/project-creator.service';
 import {formatDate} from '@angular/common';
 import {ProjectService} from '../service/project.service';
+import {User} from '../model/user';
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../service/authentication.service';
 
 
 @Component({
@@ -17,20 +20,22 @@ export class UserProjectsComponent implements OnInit {
   public dat: string;
   public userId: string;
   public deletedProject: Project ;
-  constructor(private projectCreatorService: ProjectCreatorService, private projectService: ProjectService) { }
+  private currentLoggedUser: User = new User();
+  constructor(private projectCreatorService: ProjectCreatorService, private projectService: ProjectService, private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.getProjects();
+    this.currentLoggedUser = this.authenticationService.getUserFromLocalCache();
+    this.userId = this.currentLoggedUser.userId;
+    this.getProjects(this.userId);
   }
 
-  public getProjects(): void{
-    this.userId = '10';
-    this.projectCreatorService.getUsersProjects(this.userId).subscribe(
+  public getProjects(id: string): void{
+    this.projectCreatorService.getUsersProjects(id).subscribe(
       (response: Project[]) => {
         this.projects = response;
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        console.log(error.message);
       }
     );
   }
@@ -44,7 +49,7 @@ export class UserProjectsComponent implements OnInit {
     this.projectService.deleteProject(projectId).subscribe(
       (response: void) => {
         console.log(response);
-        this.getProjects();
+        this.getProjects(this.userId);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

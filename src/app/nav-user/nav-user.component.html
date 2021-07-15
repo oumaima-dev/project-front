@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg">
-  <a class="navbar-brand btn" routerLink="/index">Crowd-Funding </a>
+  <a class="navbar-brand btn" routerLink="/user/newProjects">Crowd-Funding </a>
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" style="margin-right: 30px">
@@ -18,10 +18,10 @@
             <div class="col-md pl-4 user-dropdown text-center">
               <div class="dropdown btn-group">
                 <a class="navbar-brand dropdown-toggle" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: lowercase;font-size: 1em">
-                <img src="http://placehold.it/20x20" class="profile-image rounded-circle"> Username <b class="caret"></b></a>
+                <img src="{{currentLoggedUser.profileImageUrl}}" class="profile-image rounded-circle w-25"> {{currentLoggedUser.username}} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a href="" >
+                    <a (click)="onSignOut()">
                       <i class="fa fa-sign-out"></i>Logout
                     </a>
                     <form id="frm-logout" action="" method="POST" style="display: none;">
@@ -29,15 +29,133 @@
                     </form>
                     <hr>
                   </li>
-                  <li><a href=""><i class="fa fa-edit"></i>Edit My Profil</a></li>
+                  <li><a (click)="onEditUserModel()"><i class="fa fa-edit" ></i>Edit My Profil</a></li>
                 </ul>
               </div>
             </div>
         </div>
-
-
-        <!--<a class="nav-link btn register-btn">Sign Out <span class="sr-only">(current)</span></a>-->
       </li>
     </ul>
+  </div>
+
+  <!-- Button trigger Edit User modal -->
+  <button type="button" class="btn btn-primary" hidden id="openUserEdit" data-toggle="modal" data-target="#editUserModel">
+    Edit User
+  </button>
+
+
+  <!-- Modal Update Current User Info-->
+  <div class="modal draggable fade bd-example-modal-lg" id="editUserModel" tabindex="-1" role="dialog"
+       aria-labelledby="exampleModalCenterTitle"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">Edit Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-sm-auto">
+                    <div class="mx-auto" style="width: 120px;">
+                      <div class="d-flex justify-content-center algin-items-center rounded">
+                        <img class="rounded" height="120" width="120" alt="" src="{{editUser?.profileImageUrl}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col d-flex justify-content-between flex-column flex-sm-row">
+                    <div class="text-center text-sm-left mb-sm-0">
+                      <h6 *ngIf="editUser?.lastName || editUser?.firstName" class="pt-sm-2 pb-1 mb-0 text-nowrap">
+                        {{editUser?.lastName}} {{editUser?.firstName}}</h6>
+                      <p class="mb-1">{{editUser?.username}}</p>
+                      <div *ngIf="editUser?.loginDateDisplay" class="text-muted"><small>Last Login: {{editUser?.loginDateDisplay | date:'short'}}</small>
+                      </div>
+                      <div class="text-muted"><small>Joined {{editUser?.joinDate | date:'longDate'}}</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center text-sm-right">
+                    <span class="badge badge-secondary" *ngIf="editUser.role.substring(5) == 'ADMIN'">administrator</span>
+                    <span class="badge badge-secondary" *ngIf="editUser.role.substring(5) == 'USER'">user</span>
+                    <div class="">
+                      <span [hidden]="editUser?.notLocked" class="badge badge-danger">Locked</span>
+                      <span [hidden]="!editUser?.notLocked" class="badge badge-success">Unlocked</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form #editForm="ngForm">
+            <div class="form-group">
+              <label>Username</label>
+              <div class="input-group mb-3">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input class="form-control form-control-lg" type="text" [(ngModel)]="editUser.username" name="username" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <div class="input-group mb-3">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                <input class="form-control form-control-lg" type="email" [(ngModel)]="editUser.email" name="email" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>First Name</label>
+              <div class="input-group mb-3">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input class="form-control form-control-lg" type="text" [(ngModel)]="editUser.firstName" name="firstName" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <div class="input-group mb-3">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input class="form-control form-control-lg" type="text" [(ngModel)]="editUser.lastName" name="lastName" required>
+              </div>
+            </div>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Profile Picture</span>
+              </div>
+              <div class="custom-file">
+                <input type="file" name="profileImage"
+                       (change)="onProfileImageChange($event)"
+                       class="custom-file-input">
+                <label class="custom-file-label">
+                  <span [hidden]="!fileName">{{fileName}}</span>
+                  <span [hidden]="fileName">Choose File</span>
+                </label>
+              </div>
+            </div>
+            <fieldset class="form-group">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="editUser.active" name="active">
+                  Active
+                </label>
+              </div>
+              <div class="form-check disabled">
+                <label class="form-check-label">
+                  <input class="form-check-input" disabled readonly type="checkbox" [(ngModel)]="editUser.notLocked" name="locked">
+                  Unlocked
+                </label>
+              </div>
+            </fieldset>
+          </form>
+          <!--          {{editForm.value | json}}-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeEditModalButton">Close</button>
+          <button type="button" (click)="onEditUser()" [disabled]="editForm.invalid" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
   </div>
 </nav>

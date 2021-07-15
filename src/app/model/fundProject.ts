@@ -1,7 +1,7 @@
 export class FundProject{
-  id: number;
-  funds: number;
+  id: string;
+  raisedFunds: number;
   projectId: string;
-  funderId: string[];
+  funders: string[];
 }
 

@@ -1,5 +1,6 @@
 <div>
-  <div *ngFor="let project of projects">
+  <h4 class="mt-2">My Projects</h4>
+  <div *ngFor="let project of projects" class="mt-2">
   <section id="#container">
     <div class="project-img"><img class="image btn" src="{{project?.imgUrl}}" [routerLink]="['/usersprojects', project?.id]"></div>
 
@@ -21,7 +22,7 @@
   </div>
 </div>
 
-<div *ngIf="projects?.length == 0">
+<div *ngIf="projects?.length == 0" class="mt-4">
   <p>no projects found</p>
 </div>
 

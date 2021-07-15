@@ -13,18 +13,19 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {RegisterComponent} from './register/register.component';
 import {LoginComponent} from './login/login.component';
+import {ProjectHomeDetailsComponent} from './project-home-details/project-home-details.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
-  // { path: 'home', component: HomePageComponent},
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  // {path: '', redirectTo: 'index', pathMatch: 'full'},
+  { path: 'home', component: HomePageComponent},
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {path: 'index', component: HomePageComponent},
   {path: 'newAnouncement', component: ProjectAnouncementsComponent},
   {path: 'projects/:id', component: ProjectDetailsComponent},
   {path: 'usersprojects/:id', component: UserProjectsDetailsComponent},
+  {path: 'homeProjects/:id', component: ProjectHomeDetailsComponent},
   {path: 'newProject', component: PublishProjectComponent },
   {path: 'user', component: UserAccountComponent,
   children: [

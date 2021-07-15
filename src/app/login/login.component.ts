@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (this.authenticationService.isAnAdmin()) {
         this.router.navigateByUrl('/dashboard');
       } else {
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/user/newProjects');
       }
     } else {
       this.router.navigateByUrl('/login');
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           if (this.authenticationService.isAnAdmin()) {
             this.router.navigateByUrl('/dashboard');
           } else {
-            this.router.navigateByUrl('/home');
+            this.router.navigateByUrl('/user/newProjects');
           }
         },
         (errorResponse: HttpErrorResponse ) => {

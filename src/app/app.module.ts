@@ -33,6 +33,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {ConfirmEqualValidatorDirective} from './utility/confirm-equal-validator.directive';
+import { ProjectHomeDetailsComponent } from './project-home-details/project-home-details.component';
 // import {HomePageComponent} from "./home-page/home-page.component";
 
 @NgModule({
@@ -57,7 +58,8 @@ import {ConfirmEqualValidatorDirective} from './utility/confirm-equal-validator.
     LoginComponent,
     DashboardComponent,
     // HomePageComponent,
-    ConfirmEqualValidatorDirective
+    ConfirmEqualValidatorDirective,
+    ProjectHomeDetailsComponent
   ],
   imports: [
     BrowserModule,

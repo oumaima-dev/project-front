@@ -39,3 +39,13 @@
   font-size: 15px;
   margin-right: 5px;
 }
+
+.btn-info{
+  background-color:white;
+  border: 1px solid #FFDAB9!important;
+  color: black;
+  border-radius:unset!important;
+}
+.btn-info:hover{
+  background-color: #FFDAB9;
+}

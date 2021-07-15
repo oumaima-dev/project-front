@@ -9,6 +9,7 @@ export class Project{
     category: string;
     imgUrl: string;
     announcement: Announcement[];
+    projectOwner: string;
 }
 
 export class Announcement{
@@ -16,7 +17,6 @@ export class Announcement{
   message: string;
   annCreationDate: Date;
 }
-
-enum Category {
-    Business,
-    Charity}
+export enum Category {
+  Business,
+  Charity}

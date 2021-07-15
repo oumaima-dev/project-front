@@ -1,0 +1,111 @@
+.project_desc{
+  line-height: 32px;
+}
+.container{
+  background-color: white;
+}
+.btn{
+  font-family: "Calibri", Times, serif;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding-left: 15px;
+  padding-bottom :20px ;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+
+}
+.btn:hover{
+  border-bottom: 3px solid black;
+}
+
+.background{
+  background-image: url("/assets/images/art.jpg");
+  height: 700px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  margin-top: 80px;
+}
+.project_header{
+  background-color: #FFF8DC ;
+  width:1300px ;
+  height:700px ;
+  position: relative;
+  top: 60px;
+}
+.project_title{
+  font-size: 44px;
+  font-weight: bold;
+  font-family:  "Lucida Console", "Courier New", monospace;
+  text-align: center;
+  padding-top: 50px;
+}
+.contributions_number, .price{
+  font-size: 1.6em;
+  font-weight: bold;
+}
+ul{
+  display: flex;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  -webkit-box-pack: justify;
+  overflow: auto hidden;
+}
+li{
+  text-align: -webkit-match-parent;
+  font-size: 1em;
+  margin-left: 80px;
+}
+.links{
+  border-bottom: 1px solid rgb(227, 221, 211);
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  padding-top: 100px;
+}
+.cards{
+  padding-bottom: 40px;
+  padding-top: 35px;
+}
+.card{
+  margin: 20px;
+}
+.anouncement-title{
+  padding-bottom: 50px;
+}
+.idea{
+  border-bottom: 1px solid black;
+}
+.price-info{
+  margin-left: 50px;
+}
+.informations{
+  margin-left: 30px;
+}
+.form-control{
+  border-radius: unset!important;
+  border-color:#FFF8DC ;
+}
+.submit-buttons{
+
+}
+.btn-block{
+  margin: 3px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border: none;
+  text-transform: uppercase;
+}
+.btn-block:active{
+  background-color: white!important;
+  color: black!important;
+  border-color: white!important;
+}
+img{
+  float: left;
+  width:  650px;
+  height: 300px;
+  object-fit: cover;
+}

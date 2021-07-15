@@ -1,17 +1,18 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<app-nav-user></app-nav-user>
+<app-nav-component></app-nav-component>
+
 <div class="background" id="main-container">
 
   <div class="project_header container">
-      <p class="project_title">{{project?.name}}</p>
-      <p style="font-size: 16px;text-align: center">{{project?.shortIdea}}</p>
+    <p class="project_title">{{project?.name}}</p>
+    <p style="font-size: 16px;text-align: center">{{project?.shortIdea}}</p>
     <div class="d-flex flex-row pt-5">
 
-        <div class="img p-4">
-          <img class="image" src="{{project?.imgUrl}}" width="650" height="300">
-        </div>
+      <div class="img p-4">
+        <img class="image" src="{{project?.imgUrl}}" width="650" height="300">
+      </div>
 
-        <div  class="d-flex flex-column">
+      <div  class="d-flex flex-column">
 
         <div class="text-center informations p-2 d-flex flex-row">
           <div class="mt-4"><i class="fa fa-user-plus" aria-hidden="true" style="font-size: 30px;color: gray;padding-top: 24px"></i></div>
@@ -21,10 +22,10 @@
             <div class="p-1"><p>Contributions</p></div>
           </div>
           <div class="d-flex flex-column">
-          <div class="price-info d-flex flex-row ">
-            <div class="p-2"> <span class="price">{{project?.fundGoal}}</span></div>
-            <div class="p-3"><i class="fa fa-usd" aria-hidden="true" style="font-size: 25px"></i></div>
-          </div>
+            <div class="price-info d-flex flex-row ">
+              <div class="p-2"> <span class="price">{{project?.fundGoal}}</span></div>
+              <div class="p-3"><i class="fa fa-usd" aria-hidden="true" style="font-size: 25px"></i></div>
+            </div>
             <hr class="w-75 ml-5">
             <div class="price-info d-flex flex-row pl-2">
               <div class="p-2" *ngIf="fundProjectD == null"> <span class="price" style="font-size: 1.4em">0</span></div>
@@ -36,18 +37,18 @@
         </div>
 
         <div class="p-2">
-          <form (ngSubmit)="saveFund(project?.id)">
+          <form>
             <div class="form-group">
               <input type="number" class="form-control form-control-lg" [(ngModel)]="funds" name="funds" id="prix" aria-describedby="emailHelp" placeholder="Starting from 10$">
             </div>
             <div class="submit-buttons d-flex flex-row">
-              <button *ngIf="project?.category === 'business'" type="submit" class="btn btn-primary btn-lg btn-block" >Invest</button>
-              <button *ngIf="project?.category === 'charity'" type="submit" class="btn btn-primary btn-lg btn-block" >Donate</button>
+              <button *ngIf="project?.category === 'business'" type="submit" class="btn btn-primary btn-lg btn-block" routerLink="/login">Invest</button>
+              <button *ngIf="project?.category === 'charity'" type="submit" class="btn btn-primary btn-lg btn-block" routerLink="/login">Donate</button>
             </div>
           </form>
         </div>
-        </div>
       </div>
+    </div>
   </div>
 </div>
 
@@ -64,11 +65,11 @@
 
 
 
-          <div class="project_desc  col-md-7">
+        <div class="project_desc  col-md-7">
 
-            <p>
-              {{project?.description}}
-            </p>
+          <p>
+            {{project?.description}}
+          </p>
 
         </div>
         <div  class="col-md-6">
@@ -89,3 +90,4 @@
     </div>
   </section>
   <app-footer></app-footer>
+

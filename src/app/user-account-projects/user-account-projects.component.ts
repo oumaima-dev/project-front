@@ -3,6 +3,11 @@ import {Project} from '../model/project';
 import {ProjectService} from '../service/project.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {formatDate } from '@angular/common';
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../service/authentication.service';
+import {NotificationService} from '../service/notification.service';
+import {NotificationType} from '../enum/notification-type.enum';
+import {User} from '../model/user';
 
 @Component({
   selector: 'app-user-account-projects',
@@ -11,64 +16,100 @@ import {formatDate } from '@angular/common';
 })
 export class UserAccountProjectsComponent implements OnInit {
 
-  projects: Project[];
-  filteredProjects: Project[];
+  projects: Project[] = [];
   dat: string;
-  startDate: string;
-  endDate: string;
   userId: string;
+  public filterCategory = { Business: false, Charity: false};
+  public filterDate = { start: null, end: new Date()};
+  public refreshing = false;
+  public page = 1;
+  private currentLoggedUser: User = new User();
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private router: Router, private projectService: ProjectService, private authenticationService: AuthenticationService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    this.currentLoggedUser = this.authenticationService.getUserFromLocalCache();
+    this.userId = this.currentLoggedUser.userId;
     this.getProjects();
   }
+
+
   public getProjects(): void{
+    this.refreshing = true;
     this.projectService.getProjects().subscribe(
       (response: Project[]) => {
-        this.projects = response;
-        // this.projects = response.filter(p => p.userId !== this.userId);
+        for (const project of response){
+          if (project.projectOwner !== this.userId) {
+          this.projects.push(project);
+          }
+        }
+        this.projectService.addProjectsToLocalStorage(this.projects);
+        this.sendNotification(NotificationType.SUCCESS, `${this.projects.length} projects loaded successfully`);
+        this.refreshing = false;
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.sendNotification(NotificationType.ERROR, error.error.message.toLowerCase());
       }
     );
   }
+
+  public searchUsers(searchString: string): void {
+    const results: Project[] = [];
+    console.log(this.projectService.getProjectsToLocalStorage());
+    for (const project of this.projectService.getProjectsToLocalStorage()) {
+      if ((project.name !== null && project.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1 ) ||
+        (project.shortIdea !== null && project.shortIdea.toLowerCase().indexOf(searchString.toLowerCase()) !== -1 ) ||
+        (project.fundGoal !== null && project.fundGoal.toString().indexOf(searchString.toLowerCase()) !== -1 )){
+        results.push(project);
+      }
+    }
+    this.projects = results;
+    if (results.length === 0 || !searchString) {
+      this.projects = this.projectService.getProjectsToLocalStorage();
+    }
+  }
+
+  public filterChange(): void {
+    let results: Project[] = [];
+    results = this.projectService.getProjectsToLocalStorage().filter(
+      project =>
+        (project.category.toLowerCase() === 'business' && this.filterCategory.Business)
+        || (project.category.toLowerCase() === 'charity' && this.filterCategory.Charity)
+    );
+
+    this.projects = results;
+    if (results.length === 0) {
+      this.projects = this.projectService.getProjectsToLocalStorage();
+    }
+  }
+
+  public filterChangeDate(): void {
+    let results: Project[] = [];
+    results = this.projectService.getProjectsToLocalStorage().filter(
+      project => {
+        if (this.filterDate.start !== null) {
+          return (project.creationDate >= this.filterDate.start &&
+            project.endDate < this.filterDate.end);
+        } else {
+          return project.endDate < this.filterDate.end;
+        }
+      }
+    );
+    this.projects = results;
+  }
+
+  private sendNotification(notificationType: NotificationType, message: string): void {
+    if (message) {
+      this.notificationService.showNotification(notificationType, message);
+    } else {
+      this.notificationService.showNotification(notificationType, 'An error occurred. Please try again');
+    }
+  }
+
   public getDate(date: Date): string{
      this.dat = formatDate(date, 'dd/MM/yyyy', 'en-US');
      return this.dat;
   }
-  onChange(e): void{
-    if (e.target.checked){
-      console.log(e.target.value);
-      this.filteredProjects = this.projects.filter(p => p.category.toLowerCase() === e.target.value);
-      console.log(this.filteredProjects);
-      this.projects = this.filteredProjects;
-    }
-    else{
-      this.getProjects();
-    }
-  }
 
-  onStartDateChange(e): string{
-    this.startDate = this.getDate(e.target.value);
-    console.log(this.startDate);
-    this.filteredProjects = this.projects.filter(d => this.getDate(d.creationDate) >= this.startDate);
-    this.projects = this.filteredProjects;
-    return this.startDate;
-    // let.selectedMembers = this.members.filter(
-      // m => new Date(m.date) >= new Date(startDate) && new Date(m.date) <= new Date(endDate)
-    // );
-  }
-
-  onEndDateChange(e): string{
-    this.endDate = this.getDate(e.target.value);
-    console.log(this.endDate);
-    this.filteredProjects = this.projects.filter(d => this.getDate(d.creationDate) >= this.startDate);
-    return this.endDate;
-  }
-  public filterBydate(): void{
-    // this.filteredProjects;
-  }
 
 }

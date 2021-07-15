@@ -1,1 +1,30 @@
-<p>user-investments works!</p>
+
+
+<div>
+
+
+  <h4 class="mt-2">My investments</h4>
+  <div class="mt-5 ml-3 w-25 text-center p-2" style="background-color: #FFDAB9">
+    <h5>Funded</h5>
+    <div style="margin-left: 10px">{{projectCreator.amount}}$</div>
+  </div>
+  <div *ngFor="let project of projects">
+    <section id="#container">
+      <div class="project-img"><img class="image btn" src="{{project?.imgUrl}}" [routerLink]="['/projects', project?.id]"></div>
+
+      <div class="project-body">
+        <div class="d-flex flex-row">
+          <div class="col-md-6 ml-4">
+            <h4>{{project?.name}}</h4>
+
+          </div>
+          <div class="col-md-3 ml-5">
+            <p class="mt-sm" style="font-weight: bold">Fund Goal : {{project?.fundGoal}}$</p>
+            <p class="text-muted category">{{project?.category}}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+

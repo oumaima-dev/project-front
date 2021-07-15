@@ -1,84 +1,123 @@
-<!-- BEGIN RESULT -->
-<app-nav-component></app-nav-component>
-  <div class="filter col-md-8 ml-5">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <div class="mt-3">
-      <a class="btn btn-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-        <i class="fa fa-filter" aria-hidden="true"></i>
-        Filter Projects</a>
+<nav class="navbar navbar-expand-lg">
+  <div class="widget_title">
+    <a class="navbar-brand btn" routerLink="/index">
+      <!--      <img src="assets/images/logo.png" height="600" width="100" class="img-fluid" alt="CROWD-FUNDING">-->
+      CROWD-FUNDING
+    </a>
 
-      <div class="collapse" id="collapseExample">
-        <div class=" m-4">
-          <div class="row">
-            <div><span style="font-weight:bold">Category :</span></div>
-            <div class="ml-5 mt-2">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="business" id="inlineCheckbox1"
-                       value="business">
-                <label class="form-check-label" for="inlineCheckbox1">Business</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="charity" id="inlineCheckbox2"
-                        value="charity">
-                <label class="form-check-label" for="inlineCheckbox2">Charity</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="m-4">
-          <div class="row">
-            <div><span style="font-weight:bold">Date :</span></div>
-            <div class="row ml-5">
-              <div class="row">
-                <div><span>From</span></div>
-                <div class="col-md-8">
-                  <div class="input-group date form_date" data-date="2020-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
-                    <input type="date" class="form-control" name="startDate"
-                           id="startDateInput"  />
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div><span>To</span></div>
-                <div class="col-md-8">
-                  <div class="input-group date form_date " data-date="2021-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2">
-                    <input type="date" class="form-control" placeholder="10/12/2021" name="endDate"
-                           id="endDateInput" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login" style="width: 160px;text-align: center"><i class="fa fa-plus" aria-hidden="true"></i>
+          Start a Project</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn" routerLink="/login" >Sign In </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn register-btn" routerLink="/register" >Register</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
-        </div>
+<!-- FILTER AND SEARCH -->
+<div class="filter col-md-8 ml-5">
+  <!--search-->
+  <div class="mt-3 right">
+    <div class="mb-3 float-right">
+      <div class="btn-group mr-2">
+        <form #searchForm="ngForm"  class="form-inline my-2 my-lg-0 justify-content-center">
+          <input type="search" class="form-control mr-sm-2" ngModel (ngModelChange)="searchProjects(searchForm.value.searchString)" name="searchString" placeholder="Search project...">
+        </form>
+      </div>
+      <div class="btn-group">
+        <button type="button" (click)="getProjects()" class="btn btn-info">
+          <i  *ngIf="refreshing" class="fas fa-sync fa-spin"></i><i  *ngIf="!refreshing" class="fas fa-sync"></i>
+        </button>
       </div>
     </div>
   </div>
-  <hr>
-  <div class="padding"></div>
 
-  <!-- BEGIN TABLE RESULT -->
-  <div *ngFor="let project of projects">
-    <section class="container">
-      <div class="project-img"><img class="image" src="{{project.imgUrl}}"></div>
+  <div class="mt-3">
+    <a class="btn btn-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <i class="fa fa-filter" aria-hidden="true"></i>
+      Filter Projects</a>
 
-      <div class="project-body">
-        <div class="d-flex flex-row">
-          <div class="col-md-8 ml-4">
-            <h3 >{{project.name}}</h3>
-            <p>{{getDate(project.creationDate)}}</p>
-            <div>
-              <p class="description" style="word-wrap: break-word;">{{project.shortIdea}}</p>
+    <div class="collapse" id="collapseExample">
+      <div class=" m-4">
+        <div class="row">
+          <div><span style="font-weight:bold">Category :</span></div>
+          <div class="ml-5 mt-2">
+            <div class="form-check form-check-inline">
+              <input [(ngModel)]="filterCategory.Business" (ngModelChange)="filterChange()" class="form-check-input" type="checkbox" name="business" value="business">
+              <label class="form-check-label">Business</label>
             </div>
-          </div>
-          <div class="col-md-3 ml-5">
-            <p class="mt-sm" style="font-weight: bold">{{project.fundGoal}}$</p>
-            <p class="text-muted category">{{project.category}}</p>
-            <a class="btn btn-primary btn-info btn-sm" [routerLink]="['/projects', project.id]">Learn More</a>
+            <div class="form-check form-check-inline">
+              <input [(ngModel)]="filterCategory.Charity" (ngModelChange)="filterChange()" class="form-check-input" type="checkbox" name="charity" value="charity">
+              <label class="form-check-label">Charity</label>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+      <div class="m-4">
+        <div class="row">
+          <div><span style="font-weight:bold">Date :</span></div>
+          <div class="row ml-5">
+            <div class="row">
+              <div><span>From</span></div>
+              <div class="col-md-8">
+                <div class="input-group date form_date" data-date="2020-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
+                  <input [(ngModel)]="filterDate.start" (ngModelChange)="filterChangeDate()" type="date" class="form-control" name="startDate"/>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div><span>To</span></div>
+              <div class="col-md-8">
+                <div class="input-group date form_date " data-date="2021-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2">
+                  <input [(ngModel)]="filterDate.end" (ngModelChange)="filterChangeDate()" type="date" class="form-control" placeholder="10/12/2021" name="endDate"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
-  <!-- END TABLE RESULT -->
+</div>
+<hr>
+<div class="padding"></div>
+
+<!-- BEGIN TABLE RESULT -->
+<div *ngFor="let project of projects | paginate: { itemsPerPage: 2, currentPage: page }">
+  <section class="container">
+    <div class="project-img"><img class="image" src="{{project.imgUrl}}"></div>
+
+    <div class="project-body">
+      <div class="d-flex flex-row">
+        <div class="col-md-8 ml-4">
+          <h3 >{{project.name}}</h3>
+          <p>{{project.creationDate | date:'shortDate'}}</p>
+          <div>
+            <p class="description" style="word-wrap: break-word;">{{project.shortIdea}}</p>
+          </div>
+        </div>
+        <div class="col-md-3 ml-5">
+          <p class="mt-sm" style="font-weight: bold">{{project.fundGoal}}$</p>
+          <p class="text-muted category">{{project.category}}</p>
+          <a class="btn btn-primary btn-info btn-sm" [routerLink]="['/homeProjects',project?.id]">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- END TABLE RESULT -->
+<pagination-controls (pageChange)="page=$event" ></pagination-controls>
+
+
 <app-footer></app-footer>

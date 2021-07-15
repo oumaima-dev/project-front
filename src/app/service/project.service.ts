@@ -5,20 +5,17 @@ import {Announcement, Project} from '../model/project';
 import {environment} from '../../environments/environment';
 import {FundProject} from '../model/fundProject';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.api;
 
   constructor(private http: HttpClient) { }
 
   public getProjects(): Observable<Project[]>{
-    return this.http.get<Project[]>(`http://localhost:8082/projects/all`); // api gateway
+    return this.http.get<Project[]>(`${this.apiUrl}/projects/all`); // api gateway
   }
 
   public getProjectById(projectId: string): Observable<Project>{
@@ -56,7 +53,18 @@ export class ProjectService {
   }
 
   public fundProject(fundProject: FundProject, userId: string, fund: number): Observable<void>{
-    return this.http.post<void>(`http://localhost:8081/investment/addFund/${userId}/${fund}`, fundProject);
+    return this.http.post<void>(`${this.apiUrl}/investment/addFund/${userId}/${fund}`, fundProject);
+  }
+
+  public addProjectsToLocalStorage(projects: Project[]): void {
+    localStorage.setItem('projects', JSON.stringify(projects));
+  }
+
+  public getProjectsToLocalStorage(): Project[] | null {
+    if (localStorage.getItem('projects')) {
+      return JSON.parse(localStorage.getItem('projects') as string);
+    }
+    return null;
   }
 }
 

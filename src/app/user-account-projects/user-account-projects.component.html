@@ -1,61 +1,79 @@
 <!-- BEGIN RESULT -->
 <div >
   <div class="col-md-8 ml-5">
-
-    <div class="mt-3">
-      <a class="btn btn-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-        <i class="fa fa-filter" aria-hidden="true"></i>
-        Filter Projects</a>
-
-      <div class="collapse" id="collapseExample">
-        <div class=" m-4">
-          <div class="row">
-            <div><span style="font-weight:bold">Category :</span></div>
-            <div class="ml-5 mt-2">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="business" id="inlineCheckbox1"
-                       (change)="onChange($event)" value="business">
-                <label class="form-check-label" for="inlineCheckbox1">Business</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="charity" id="inlineCheckbox2"
-                       (change)="onChange($event)" value="charity">
-                <label class="form-check-label" for="inlineCheckbox2">Charity</label>
-              </div>
+<h4 class="mt-2">Discover New Projects</h4>
+    <div class="mt-5">
+      <!-- FILTER AND SEARCH -->
+        <!--search-->
+        <div class="mt-3 right">
+          <div class="mb-3 float-right">
+            <div class="btn-group mr-2">
+              <form #searchForm="ngForm"  class="form-inline my-2 my-lg-0 justify-content-center">
+                <input type="search" class="form-control mr-sm-2" ngModel (ngModelChange)="searchUsers(searchForm.value.searchString)" name="searchString" placeholder="Search project...">
+              </form>
+            </div>
+            <div class="btn-group">
+              <button type="button" (click)="getProjects()" class="btn btn-info">
+                <i  *ngIf="refreshing" class="fas fa-sync fa-spin"></i><i  *ngIf="!refreshing" class="fas fa-sync"></i>
+              </button>
             </div>
           </div>
         </div>
-        <div class="m-4">
-          <div class="row">
-            <div><span style="font-weight:bold">Date :</span></div>
-            <div class="row ml-5">
+        <div class="mt-3">
+          <a class="btn btn-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <i class="fa fa-filter" aria-hidden="true"></i>
+            Filter Projects</a>
+
+          <div class="collapse" id="collapseExample">
+            <div class=" m-4">
               <div class="row">
-                <div><span>From</span></div>
-                <div class="col-md-8">
-                  <div class="input-group date form_date" data-date="2020-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
-                    <input type="date" class="form-control" name="startDate"
-                           id="startDateInput" (change)="onStartDateChange($event)" />
+                <div><span style="font-weight:bold">Category :</span></div>
+                <div class="ml-5 mt-2">
+                  <div class="form-check form-check-inline">
+                    <input [(ngModel)]="filterCategory.Business" (ngModelChange)="filterChange()" class="form-check-input" type="checkbox" name="business" id="inlineCheckbox1"
+                           value="business">
+                    <label class="form-check-label" for="inlineCheckbox1">Business</label>
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div><span>To</span></div>
-                <div class="col-md-8">
-                  <div class="input-group date form_date " data-date="2021-06-14T05:25:07Z" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2">
-                    <input type="date" class="form-control" placeholder="10/12/2021" name="endDate"
-                           id="endDateInput" (change)="onEndDateChange($event)"/>
+                  <div class="form-check form-check-inline">
+                    <input [(ngModel)]="filterCategory.Charity" (ngModelChange)="filterChange()" class="form-check-input" type="checkbox" name="charity" id="inlineCheckbox2"
+                           value="charity">
+                    <label class="form-check-label" for="inlineCheckbox2">Charity</label>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+            <div class="m-4">
+              <div class="row">
+                <div><span style="font-weight:bold">Date :</span></div>
+                <div class="row ml-5">
+                  <div class="row">
+                    <div><span>From</span></div>
+                    <div class="col-md-8">
+                      <div class="input-group date form_date" data-date="2020-06-14" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
+                        <input [(ngModel)]="filterDate.start" (ngModelChange)="filterChangeDate()" type="date" class="form-control" name="startDate"
+                               id="startDateInput"  />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div><span>To</span></div>
+                    <div class="col-md-8">
+                      <div class="input-group date form_date " data-date="2021-06-14" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2">
+                        <input [(ngModel)]="filterDate.end" (ngModelChange)="filterChangeDate()" type="date" class="form-control" placeholder="10.12.2021" name="endDate"
+                               id="endDateInput" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <hr>
-  <div class="padding"></div>
 
   <!-- BEGIN TABLE RESULT -->
   <div *ngFor="let project of projects">
